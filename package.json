@@ -1,0 +1,23 @@
+{
+  "name": "tsr",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "serve": "http-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack-cli": "^3.1.2",
+    "ts-loader": "^5.3.1",
+    "webpack": "^4.26.1",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
