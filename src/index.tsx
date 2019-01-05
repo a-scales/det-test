@@ -50,13 +50,44 @@ class OtherComponent implements JSX.ElementClass{
         this.props = props;
     }
     render(){
-        return(<h4>{this.props.test}</h4>)
+        return(<div><h4>{this.props.test}</h4></div>)
     }
 }
 // let FinalComp = new OtherComponent
 
-let menuItems = ["one","two","three","Covenant is Gay"];
-let menu = menuItems.map(item => { return ( <li><a href="#">{item}</a></li> )})
+
+
+
+
+
+interface IComponentTemplate {
+    Props;
+    // onInit();
+    render();
+    // onKill();
+}
+class ComponentTemplate {
+    Props;
+    constructor(props) {
+        this.Props = props;
+    }
+    render() {
+
+    }
+}
+
+class TestComp extends ComponentTemplate {    
+    constructor(props) {
+        super(props);        
+    }
+    render() {
+        return(<h2>{this.Props.test}</h2>)
+    }
+}
+
+
+let menuItems = [{title:"one",link:"#"},{title:"two",link:"#"}];
+let menu = menuItems.map(item => { return ( <li><a href={item.link}>{item.title}</a></li> )})
 console.log("MENU",menu);
 document.body.appendChild(
 <div>
@@ -68,7 +99,8 @@ document.body.appendChild(
     </nav>
     <section>
         <h2 test="123">Section</h2>        
-            <OtherComponent test="bar">123</OtherComponent>            
+        <TestComp test="ree"/>
+                        
     </section>
 </div>)
 

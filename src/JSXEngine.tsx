@@ -3,14 +3,14 @@ class E {
     // TODO: Split out functions for rendering custom components
     // ~TODO~: Handling Attributes 
     JSXrender(tag:any,attrs:any, ...children:any) {    
-        
+        // console.log(tag)
 
         var e: HTMLElement;
         if(typeof tag === 'string') {
             e = document.createElement(tag);
         }
         else {
-            if( tag.name === 'e') {
+            if( tag.name === 'e' || tag.name === 'n') {
                 //TODO: Pass in inner text or other of templates
                 console.log(tag,attrs,children);
                 let r = (new tag(attrs)).render();
@@ -53,7 +53,7 @@ class E {
                 e.setAttribute(key, attrs[key])
             })
         }
-        this.JSXLog(tag,attrs,...children)
+        // this.JSXLog(tag,attrs,...children)
 
         // TODO: Create a vDOM system for this ish.
         return(e);
@@ -86,5 +86,15 @@ class E {
         })
     }
 
+
+    // VDOM
+
+    BuildVDOM() {
+
+    }
+
+    AddNode() {
+        
+    }
 }
 export default new E;
