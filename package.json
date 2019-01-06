@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "serve": "http-server"
+    "serve": "http-server",
+    "rb": "npm run build && npm run serve"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,10 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
-    "http-server": "^0.11.1"
+    "@types/crypto-js": "^3.1.43",
+    "@types/uuid": "^3.4.4",
+    "crypto-js": "^3.1.9-1",
+    "http-server": "^0.11.1",
+    "uuid": "^3.3.2"
   }
 }

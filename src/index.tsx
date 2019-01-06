@@ -1,7 +1,9 @@
 // alert("Hello!");
-
+import {v4} from "uuid";
+import {MD5} from "crypto-js";
 import Fin from './t';
 import E from './JSXEngine';
+import { runInThisContext } from "vm";
 declare module JSX {
     interface ElementClass {
         render: any;      
@@ -66,7 +68,7 @@ interface IComponentTemplate {
     render();
     // onKill();
 }
-class ComponentTemplate {
+class ComponentTemplate implements IComponentTemplate {
     Props;
     constructor(props) {
         this.Props = props;
@@ -74,9 +76,12 @@ class ComponentTemplate {
     render() {
 
     }
+    getClassName() {
+        
+    }
 }
 
-class TestComp extends ComponentTemplate {    
+class TestComp extends ComponentTemplate{    
     constructor(props) {
         super(props);        
     }
@@ -88,9 +93,12 @@ class TestComp extends ComponentTemplate {
 
 let menuItems = [{title:"one",link:"#"},{title:"two",link:"#"}];
 let menu = menuItems.map(item => { return ( <li><a href={item.link}>{item.title}</a></li> )})
-console.log("MENU",menu);
-document.body.appendChild(
-<div>
+// console.log("MENU",menu);
+let x = MD5("Test123")
+// console.log(x.toString())
+// document.body.appendChild(
+let xxx = (<div>
+    <div>What?</div>
     <h1 id="title">Hello</h1>
     <nav>  
         <ul>
@@ -99,9 +107,10 @@ document.body.appendChild(
     </nav>
     <section>
         <h2 test="123">Section</h2>        
-        <TestComp test="ree"/>
-                        
+        <TestComp test="ree"/>        
     </section>
 </div>)
-
+// )
+console.log(E.vD);
+console.log(E.vD.vDOM_Tree[9]());
 // document.body.appendChild(<Fin/>)
