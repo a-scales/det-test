@@ -1,28 +1,43 @@
 import { Node, vDOM } from "./vDOM/V";
+import { DH_CHECK_P_NOT_SAFE_PRIME } from "constants";
 class E {
 
     vD: vDOM;
     constructor(){
-        this.vD = new vDOM();
-        this.vD.vDOM_Tree = [];
+        this.vD = new vDOM();        
+        // this.vD.vDOM_Tree = [];        
     }
 
-    JSXrender(tag: any, attrs: any, ...children: any) {
-        console.log(children,attrs);        
+    JSXrender(tag: any, attrs: any, ...children: any) { 
+        children = [].concat.apply([],children);
         if(typeof tag === 'function') {
             let t = new tag(attrs)
-            let r = t.render();
-            console.log("r",r);
-            tag = t.constructor.name;
+            let r = t.render();            
+            tag = t.constructor.name;            
             children.push(r);
-        } else {
-            tag = document.createElement(tag);
         }
-        this.vD.vDOM_Tree.push({tag:tag,attrs:attrs,children:children});        
+        tag = document.createElement(tag);                
+        // this.vD.vDOM_Tree.push({tag:tag,attrs:attrs,children:children});
+        
+        // console.log("cc",cc);
+        let ref = {tag:tag,attrs:attrs,children:children};
+        console.log(ref);
+        // let newNode = new Node(ref);
+        this.vD.addNode(ref);
         return {tag:tag,attrs:attrs,children:children}
     }
-
     
+    buildVDOM(root: Node) {
+        if(root.componentReference.children) {
+            root.componentReference.children.forEach( child => {
+                let cN = new Node(child);
+                this.buildVDOM(cN);
+                root.addChildNode(cN);
+                console.log(child);
+            })
+        } 
+        return root;
+    }
     // TODO: Split out functions for rendering custom components
     // ~TODO~: Handling Attributes 
     // JSXrender2(tag:any,attrs:any, ...children:any) {    

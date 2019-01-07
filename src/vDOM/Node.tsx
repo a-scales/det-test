@@ -12,16 +12,13 @@ class vDOM_Node {
     id: string;
     classes: Array<string>;
     parent: vDOM_Node;
-    childNodes: Array<vDOM_Node>;
-    childElements: Array<any>;
+    childNodes: Array<vDOM_Node>;    
     componentReference: any; //TODO: Create Component Type
-    renderedString: string;
     
     constructor(componentReference) {
         this.uuid = v4();        
         this.componentReference = componentReference;
         this.childNodes = [];
-        this.childElements = [];
         this.classes = [];
         this.id = "";
 
@@ -46,7 +43,7 @@ class vDOM_Node {
     /**
      * @returns {Array<vDOM_Node>} The children of this vDOM node
      */
-    getChildElements(): Array<vDOM_Node> { return this.childElements; }
+    getChildNodes(): Array<vDOM_Node> { return this.childNodes; }
 
     /**
      * Sets the vDOM node ID
@@ -67,7 +64,7 @@ class vDOM_Node {
      * Sets all children
      * @param   {Array<vDOM_Node>} nodes The new children to overwrite the existing
      */
-    setChildElements(nodes: Array<vDOM_Node>): void { this.childElements = nodes; }
+    setChildNodes(nodes: Array<vDOM_Node>): void { this.childNodes = nodes; }
 
     /**
      * Add a class
@@ -77,8 +74,7 @@ class vDOM_Node {
     /**
      * Add a child node
      * @param c Child node to add
-     */
-    addChildElement(c: vDOM_Node): void { this.childElements.push(c); }
+     */    
     addChildNode(c: vDOM_Node): void { this.childNodes.push(c); }
 
 

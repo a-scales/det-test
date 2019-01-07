@@ -3,7 +3,8 @@ import {v4} from "uuid";
 import {MD5} from "crypto-js";
 import Fin from './t';
 import E from './JSXEngine';
-import { runInThisContext } from "vm";
+import { Node } from './vDOM/V';
+
 declare module JSX {
     interface ElementClass {
         render: any;      
@@ -111,6 +112,9 @@ let xxx = (<div>
     </section>
 </div>)
 // )
-console.log(E.vD);
-console.log(E.vD.vDOM_Tree[9]());
+let root = E.vD.vDOM_Tree[E.vD.vDOM_Tree.length-1];
+let r = new Node(root);
+let t = E.buildVDOM(r);
+console.log("dt",t);
+// console.log(E.vD.vDOM_Tree[9]());
 // document.body.appendChild(<Fin/>)
