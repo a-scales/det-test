@@ -83,7 +83,7 @@ class ComponentTemplate implements IComponentTemplate {
     }
 }
 
-class TestComp extends ComponentTemplate{    
+class TestComp extends ComponentBase{    
     constructor(props) {
         super(props);        
     }
@@ -148,7 +148,10 @@ console.log("dt",t2);
 console.log(xxx);
 console.log(x2);
 
-v.create(<App/>,document.getElementById("root"))
+let aa = v.create(<App/>,document.getElementById("root"));
+console.log(aa);
+
+
 // console.log(E.vD.nodeArray);
 // console.log(E.vD.vDOM_Tree);
 // console.log(E.vD.vDOM_Tree[9]());

@@ -19,8 +19,13 @@ class VDOM {
         let RootNode = new Node(RootComponent);
         let vDOM = this.buildVDOM(RootNode);        
         this.renderVDOM(RootDiv, RootNode);
+        return vDOM;
     }
-
+    /**
+     * renders a given node by adding it to the DOM
+     * @param RootDiv Current root to append elements to
+     * @param RootNode Current node for which children will be iterated on
+     */
     renderVDOM(RootDiv: HTMLElement, RootNode: Node) {
         RootNode.childNodes.forEach(child => {        
             console.log(child)    

@@ -8,7 +8,7 @@ interface IComponentBase {
 }
 
 class ComponentBase implements IComponentBase{
-    Props: object;
+    Props: any;
     constructor(props) {
         this.Props = props;
     }

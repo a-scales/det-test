@@ -17,7 +17,7 @@ class E {
         }
         tag = document.createElement(tag);                
         let ref = {tag:tag,attrs:attrs,children:children};
-        this.vD.addNode(ref);
+        // this.vD.addNode(ref);
         return {tag:tag,attrs:attrs,children:children}
     }
     // break this out to the vDOM class so that it can have a method that handles the setting of the root node.
