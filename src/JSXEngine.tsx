@@ -16,32 +16,28 @@ class E {
             children.push(r);
         }
         tag = document.createElement(tag);                
-        // this.vD.vDOM_Tree.push({tag:tag,attrs:attrs,children:children});
-        
-        // console.log("cc",cc);
         let ref = {tag:tag,attrs:attrs,children:children};
-        console.log(ref);
-        // let newNode = new Node(ref);
         this.vD.addNode(ref);
         return {tag:tag,attrs:attrs,children:children}
     }
-    
-    buildVDOM(root: Node) {
-        if(root.componentReference.children) {
-            root.componentReference.children.forEach( child => {
-                let cN = new Node(child);
-                this.buildVDOM(cN);
-                root.addChildNode(cN);
-                console.log(child);
-            })
-        } 
-        return root;
-    }
+    // break this out to the vDOM class so that it can have a method that handles the setting of the root node.
+    // buildVDOM(root: Node) {
+    //     if(root.componentReference.children) {
+    //         root.componentReference.children.forEach( child => {
+    //             let cN = new Node(child);
+    //             this.buildVDOM(cN);
+    //             root.addChildNode(cN);
+    //             this.vD.nodeArray.push(cN);
+    //             // console.log(child);
+    //         })
+    //     } 
+    //     return root;
+    // }
     // TODO: Split out functions for rendering custom components
     // ~TODO~: Handling Attributes 
 
     JSXLog(tag, attrs, ...children) {
-        console.log(tag);
+        // console.log(tag);
         children.forEach(child => {
             console.log("|-",child,typeof child);
         })

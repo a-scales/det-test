@@ -3,7 +3,8 @@ import {v4} from "uuid";
 import {MD5} from "crypto-js";
 import Fin from './t';
 import E from './JSXEngine';
-import { Node } from './vDOM/V';
+import { Node, vDOM } from './vDOM/V';
+import ComponentBase from "./Components";
 
 declare module JSX {
     interface ElementClass {
@@ -91,6 +92,28 @@ class TestComp extends ComponentTemplate{
     }
 }
 
+class App extends ComponentBase {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return(
+            <div>
+                <h1>Hello World!</h1>
+                <h2>This is an example</h2>
+                <TestComp test="Props!"></TestComp>
+                <div>
+                    let's go deep
+                    <ul>
+                        <li>Get food</li>
+                        <li>Pickup the dog</li>
+                    </ul>
+                </div>
+            </div>
+        )
+    }
+}
+
 
 let menuItems = [{title:"one",link:"#"},{title:"two",link:"#"}];
 let menu = menuItems.map(item => { return ( <li><a href={item.link}>{item.title}</a></li> )})
@@ -111,10 +134,32 @@ let xxx = (<div>
         <TestComp test="ree"/>        
     </section>
 </div>)
+let v = new vDOM();
+let x2 = (<div><h1>Test!</h1></div>)
 // )
-let root = E.vD.vDOM_Tree[E.vD.vDOM_Tree.length-1];
-let r = new Node(root);
-let t = E.buildVDOM(r);
+let root = E.vD.vDOM_Tree[E.vD.vDOM_Tree.length-1]; // the tree is initialized with the root node from the specific implementation of a tree
+let r = new Node(xxx);
+let r2 = new Node(x2);
+let t = v.buildVDOM(r);
+let t2 = v.buildVDOM(r2);
 console.log("dt",t);
+console.log("dt",t2);
+
+console.log(xxx);
+console.log(x2);
+
+v.create(<App/>,document.getElementById("root"))
+// console.log(E.vD.nodeArray);
+// console.log(E.vD.vDOM_Tree);
 // console.log(E.vD.vDOM_Tree[9]());
 // document.body.appendChild(<Fin/>)
+
+
+/*
+process of construction-
+Bind root app component to a root <div> on the page
+Use a function that imports the main <app> component, and replaces the root <div>
+
+
+*/
+// 
