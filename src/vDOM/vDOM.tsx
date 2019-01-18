@@ -27,15 +27,29 @@ class VDOM {
      * @param RootNode Current node for which children will be iterated on
      */
     renderVDOM(RootDiv: HTMLElement, RootNode: Node) {
+        console.log(RootDiv, typeof RootDiv === "function");
         RootNode.childNodes.forEach(child => {        
-            console.log(child)    
+            // console.log(child)            
             // let e = typeof child.componentReference.tag === "object" ? child.componentReference.tag : document.createElement(child.componentReference.tag);]
             if( typeof child.componentReference === "string") {
                 RootDiv.innerHTML = child.componentReference;
             } else {
-                console.log(child.componentReference);
-                RootDiv.appendChild(child.componentReference.tag);  
-                this.renderVDOM(child.componentReference.tag, child)
+                // console.log(child.componentReference);
+                var r;
+                if(typeof child.componentReference.tag === "function") {
+                    let t = new child.componentReference.tag(child.componentReference.attrs);
+                    r = t.render();
+                    child.componentOf = t;
+                    console.log(r, RootDiv);
+                    RootDiv.appendChild(r.tag); 
+                } else {
+                    RootDiv.appendChild(child.componentReference.tag);  
+                }                
+                if(r) {
+                    this.renderVDOM(r.tag, child);
+                } else {
+                    this.renderVDOM(child.componentReference.tag, child)
+                }
             }
                   
         })        
@@ -59,6 +73,8 @@ class VDOM {
         if(root.componentReference.children) {
             root.componentReference.children.forEach( child => {
                 let cN = new Node(child);
+                // set parents here
+                cN.setParent(root);                
                 this.buildVDOM(cN);
                 root.addChildNode(cN);
                 this.nodeArray.push(cN);
@@ -69,6 +85,9 @@ class VDOM {
         return root;
     }
 
+    // need to implement modification methods here too. 
+    // need to pass reference to this object as paramerter to all Nodes too.
+    // should be a vDOM field on the Node object, to access it as it exits.
 }
 
 export default VDOM;

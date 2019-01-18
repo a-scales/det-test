@@ -7,51 +7,38 @@ class E {
         // this.vD.vDOM_Tree = [];        
     }
 
+    /**
+     * Rendering JSX/TSX elements into a useable tree. This is called where TSX/JSX elements are used.
+     * @param tag Tag of the object, either text or a Component base
+     * @param attrs Attributes on that TSX element
+     * @param children Children within the TSX element tag
+     */
     JSXrender(tag: any, attrs: any, ...children: any) { 
         children = [].concat.apply([],children);
         if(typeof tag === 'function') {
             let t = new tag(attrs)
             let r = t.render();            
-            tag = t.constructor.name;            
+            // tag = t.constructor.name;            
             children.push(r);
+        } else {
+            tag = document.createElement(tag);                
         }
-        tag = document.createElement(tag);                
         let ref = {tag:tag,attrs:attrs,children:children};
         // this.vD.addNode(ref);
         return {tag:tag,attrs:attrs,children:children}
     }
-    // break this out to the vDOM class so that it can have a method that handles the setting of the root node.
-    // buildVDOM(root: Node) {
-    //     if(root.componentReference.children) {
-    //         root.componentReference.children.forEach( child => {
-    //             let cN = new Node(child);
-    //             this.buildVDOM(cN);
-    //             root.addChildNode(cN);
-    //             this.vD.nodeArray.push(cN);
-    //             // console.log(child);
-    //         })
-    //     } 
-    //     return root;
-    // }
-    // TODO: Split out functions for rendering custom components
-    // ~TODO~: Handling Attributes 
 
+    /**
+     * Takes the same parameters as JSX render, but just logs the children instead
+     * @param tag 
+     * @param attrs 
+     * @param children 
+     */
     JSXLog(tag, attrs, ...children) {
         // console.log(tag);
         children.forEach(child => {
             console.log("|-",child,typeof child);
         })
-    }
-
-
-    // VDOM
-
-    BuildVDOM() {
-
-    }
-
-    AddNode() {
-        
     }
 }
 export default new E;

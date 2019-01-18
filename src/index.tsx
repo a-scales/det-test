@@ -19,9 +19,6 @@ declare module JSX {
     }
     
 }
-// declare function OtherComponent(prop: {name: string});
-
-// const E = new Engine();
 
 interface ITemplate {
     new (): Template;
@@ -40,27 +37,9 @@ class Template {
         return(this.ContentTemplate)
     }
 }
-// document.body.appendChild(
 
-function MyComponent (): any {
-    return <h3>Test!</h3>
-}
+
 // TODO: Extension Component base that has a handle on constructing with child inner html for a custom component
-class OtherComponent implements JSX.ElementClass{
-    props;
-    constructor(props) {
-        // super(props);
-        console.log("props",props);
-        this.props = props;
-    }
-    render(){
-        return(<div><h4>{this.props.test}</h4></div>)
-    }
-}
-// let FinalComp = new OtherComponent
-
-
-
 
 
 
@@ -91,6 +70,9 @@ class TestComp extends ComponentBase{
         return(<h2>{this.Props.test}</h2>)
     }
 }
+let menuItems = [{title:"one",link:"#"},{title:"two",link:"#"}];
+let menu = menuItems.map(item => { return ( <li><a href={item.link}>{item.title}</a></li> )})
+
 
 class App extends ComponentBase {
     constructor(props) {
@@ -102,8 +84,9 @@ class App extends ComponentBase {
                 <h1>Hello World!</h1>
                 <h2>This is an example</h2>
                 <TestComp test="Props!"></TestComp>
+                <nav>{menu}</nav>
                 <div>
-                    let's go deep
+                    <h3>let's go deeper</h3>
                     <ul>
                         <li>Get food</li>
                         <li>Pickup the dog</li>
@@ -115,39 +98,9 @@ class App extends ComponentBase {
 }
 
 
-let menuItems = [{title:"one",link:"#"},{title:"two",link:"#"}];
-let menu = menuItems.map(item => { return ( <li><a href={item.link}>{item.title}</a></li> )})
-// console.log("MENU",menu);
-let x = MD5("Test123")
-// console.log(x.toString())
-// document.body.appendChild(
-let xxx = (<div>
-    <div>What?</div>
-    <h1 id="title">Hello</h1>
-    <nav>  
-        <ul>
-            {menu}
-        </ul>
-    </nav>
-    <section>
-        <h2 test="123">Section</h2>        
-        <TestComp test="ree"/>        
-    </section>
-</div>)
+
+
 let v = new vDOM();
-let x2 = (<div><h1>Test!</h1></div>)
-// )
-let root = E.vD.vDOM_Tree[E.vD.vDOM_Tree.length-1]; // the tree is initialized with the root node from the specific implementation of a tree
-let r = new Node(xxx);
-let r2 = new Node(x2);
-let t = v.buildVDOM(r);
-let t2 = v.buildVDOM(r2);
-console.log("dt",t);
-console.log("dt",t2);
-
-console.log(xxx);
-console.log(x2);
-
 let aa = v.create(<App/>,document.getElementById("root"));
 console.log(aa);
 

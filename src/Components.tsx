@@ -7,6 +7,9 @@ interface IComponentBase {
     // onKill();
 }
 
+/**
+ * Component Base for all DET comps
+ */
 class ComponentBase implements IComponentBase{
     Props: any;
     constructor(props) {

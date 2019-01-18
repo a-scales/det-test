@@ -14,6 +14,7 @@ class vDOM_Node {
     parent: vDOM_Node;
     childNodes: Array<vDOM_Node>;    
     componentReference: any; //TODO: Create Component Type
+    componentOf: ComponentBase;
     
     constructor(componentReference) {
         this.uuid = v4();        
