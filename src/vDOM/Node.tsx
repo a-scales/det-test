@@ -13,7 +13,7 @@ class vDOM_Node {
     classes: Array<string>;
     parent: vDOM_Node;
     childNodes: Array<vDOM_Node>;    
-    componentReference: any; //TODO: Create Component Type
+    componentReference: any; //~TODO~: Create Component Type
     componentOf: ComponentBase;
     
     constructor(componentReference) {
@@ -22,12 +22,16 @@ class vDOM_Node {
         this.childNodes = [];
         this.classes = [];
         this.id = "";
-
         this.hash = MD5(JSON.stringify([this.uuid,this.componentReference])).toString()
         this.comparatorHash = MD5(JSON.stringify([this.classes, this.id, this.childNodes, this.componentReference])).toString()
         this.internalID = this.hash.substr(0,10);
     }
-    
+    //TODO: Make all of the fields private
+    //TODO: Format classes
+    //TODO: Flesh out hooks
+    //TODO: Add service generation for data
+    //TODO: create data format interface
+
 
     /**
      * @returns {string} ID of the DOM object
@@ -87,14 +91,42 @@ class vDOM_Node {
     public removeAllClasses() {} //this should remove all and return a new empty array
 
     public afterBuild() {}
-    public render(){} // should render out the component
+    /**
+     * Returns the rendered component
+     * TODO: Make this be the true way to render components, i.e. not interfacing directly with the IComponentBase
+     */
+    public render(){
+        if(this.componentOf) {
+            return this.componentOf.render();            
+        } else {
+            return this.componentReference.tag;
+        }
+        this.afterRender();
+    }
+    /**
+     * Runs after the render;
+     * TODO: Move to interface
+     */
     public afterRender() {}
-    public forceUpdate(){} // should create a deep copy, and re-establish the node in the tree
+    /**
+     * 
+     */
+    public forceUpdate(): any{
+        var cloneO = new (this.constructor()) as any;
+        for( var attr in this) {
+            if( typeof this[attr] === "object") {
+                cloneO[attr] = this.forceUpdate();
+            } else {
+                cloneO[attr] = this[attr];
+            }            
+        }
+        return cloneO; // TODO: Replace this in the vDOM
+    } // should create a deep copy, and re-establish the node in the tree
     
     public equals(){} // comparetor, both UUID or hash. Should this be hashed value with uuid or should there be more?
     
     private hashNode() {
-
+        // figure out truth for hashing methods
     }
     
 }

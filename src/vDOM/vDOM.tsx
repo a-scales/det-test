@@ -27,20 +27,18 @@ class VDOM {
      * @param RootNode Current node for which children will be iterated on
      */
     renderVDOM(RootDiv: HTMLElement, RootNode: Node) {
-        console.log(RootDiv, typeof RootDiv === "function");
+        console.log(Node);
         RootNode.childNodes.forEach(child => {        
-            // console.log(child)            
-            // let e = typeof child.componentReference.tag === "object" ? child.componentReference.tag : document.createElement(child.componentReference.tag);]
+                            
             if( typeof child.componentReference === "string") {
                 RootDiv.innerHTML = child.componentReference;
-            } else {
-                // console.log(child.componentReference);
+            } else {                
                 var r;
                 if(typeof child.componentReference.tag === "function") {
                     let t = new child.componentReference.tag(child.componentReference.attrs);
                     r = t.render();
-                    child.componentOf = t;
-                    console.log(r, RootDiv);
+                    child.componentOf = t; 
+                    // Now there is a componentOf implementation which will allow us to add a reference to the vDOM in the object to work with after the mounting of the component                    
                     RootDiv.appendChild(r.tag); 
                 } else {
                     RootDiv.appendChild(child.componentReference.tag);  
@@ -50,8 +48,7 @@ class VDOM {
                 } else {
                     this.renderVDOM(child.componentReference.tag, child)
                 }
-            }
-                  
+            }                  
         })        
     }
 
