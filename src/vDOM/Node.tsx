@@ -2,9 +2,13 @@ import {v4} from "uuid";
 import {MD5} from "crypto-js";
 import ComponentBase from "../Components";
 
-// TODO: Define truths for component and hashing methodology
-// TODO: Integrate with automerge or immutable to lock this down with versioning
-class vDOM_Node {
+interface ComponentReference {
+    tag: any;
+    attrs: object;
+    children: Array<any>;
+}
+
+interface IVDOM_Node {
     uuid: string;
     hash: string;
     comparatorHash: string;
@@ -12,9 +16,31 @@ class vDOM_Node {
     id: string;
     classes: Array<string>;
     parent: vDOM_Node;
-    childNodes: Array<vDOM_Node>;    
-    componentReference: any; //~TODO~: Create Component Type
+    childNodes: Array<vDOM_Node>;
+    componentReference: any;
     componentOf: ComponentBase;
+    elementHash: string;
+
+    afterBuild();
+    render();
+    afterRender();
+    forceUpdate();
+    equals(n: vDOM_Node): boolean;
+}
+// TODO: Define truths for component and hashing methodology
+// TODO: Integrate with automerge or immutable to lock this down with versioning
+class vDOM_Node implements IVDOM_Node {
+    public uuid: string;
+    public hash: string;
+    protected _comparatorHash: string; get comparatorHash(): string { return this._comparatorHash; } 
+    protected _internalID: string; get internalID(): string { return this._internalID; }
+    public id: string;
+    public classes: Array<string>;
+    public parent: vDOM_Node;
+    public childNodes: Array<vDOM_Node>;    
+    public componentReference: any; //~TODO~: Create Component Type
+    public componentOf: ComponentBase;
+    protected _elementHash: string; get elementHash(): string { return this._elementHash; } set elementHash(h: string) { this._elementHash = h; }
     
     constructor(componentReference) {
         this.uuid = v4();        
@@ -23,15 +49,16 @@ class vDOM_Node {
         this.classes = [];
         this.id = "";
         this.hash = MD5(JSON.stringify([this.uuid,this.componentReference])).toString()
-        this.comparatorHash = MD5(JSON.stringify([this.classes, this.id, this.childNodes, this.componentReference])).toString()
-        this.internalID = this.hash.substr(0,10);
+        this._comparatorHash = MD5(JSON.stringify([this.classes, this.id, this.childNodes, this.componentReference])).toString()
+        this._internalID = this.hash.substr(0,10);
     }
-    //TODO: Make all of the fields private
+    //~TODO: Make all of the fields private~
     //TODO: Format classes
     //TODO: Flesh out hooks
     //TODO: Add service generation for data
     //TODO: create data format interface
-
+    //TODO: Create a component reference interface
+    //TODO: Create an .equals() method
 
     /**
      * @returns {string} ID of the DOM object
@@ -49,7 +76,8 @@ class vDOM_Node {
      * @returns {Array<vDOM_Node>} The children of this vDOM node
      */
     getChildNodes(): Array<vDOM_Node> { return this.childNodes; }
-
+    
+    getComponentRef(): object { return this.componentReference; }
     /**
      * Sets the vDOM node ID
      * @param   {string} id The new id to use
@@ -123,7 +151,7 @@ class vDOM_Node {
         return cloneO; // TODO: Replace this in the vDOM
     } // should create a deep copy, and re-establish the node in the tree
     
-    public equals(){} // comparetor, both UUID or hash. Should this be hashed value with uuid or should there be more?
+    public equals(n: vDOM_Node): boolean { return this._comparatorHash == n.comparatorHash; } // comparetor, both UUID or hash. Should this be hashed value with uuid or should there be more?
     
     private hashNode() {
         // figure out truth for hashing methods

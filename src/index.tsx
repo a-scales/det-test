@@ -102,7 +102,8 @@ class App extends ComponentBase {
 
 let v = new vDOM();
 let aa = v.create(<App/>,document.getElementById("root"));
-console.log(aa);
+console.log(aa); // the root node;
+console.log(v.nodeHash);
 
 
 // console.log(E.vD.nodeArray);

@@ -1,15 +1,24 @@
 import Node from "./Node";
 import ComponentBase from "../Components";
+import {MD5} from "crypto-js";
+interface INodeHash {
+    [hash: string]: Node;
+}
+interface IElementHash {
+    [elementHash: string]: Node;
+}
+
 class VDOM {
     vDOM_Tree: Array<any> = [];
     nodeArray: Array<Node> = [];
     root: any;
     rootNode: Node;
     levels: number;    
+    nodeHash: INodeHash = {};
     constructor() {
         
     }
-    
+    // TODO: Searching by hashmap- i.e. hashing Node, and then using a hashmap to resolve the position within the tree    
     /**
      * Creates the base for the elements
      * @param RootComponent Root FW Component
@@ -27,9 +36,8 @@ class VDOM {
      * @param RootNode Current node for which children will be iterated on
      */
     renderVDOM(RootDiv: HTMLElement, RootNode: Node) {
-        console.log(Node);
-        RootNode.childNodes.forEach(child => {        
-                            
+        // console.log(Node);
+        RootNode.childNodes.forEach(child => {                                    
             if( typeof child.componentReference === "string") {
                 RootDiv.innerHTML = child.componentReference;
             } else {                
@@ -38,10 +46,16 @@ class VDOM {
                     let t = new child.componentReference.tag(child.componentReference.attrs);
                     r = t.render();
                     child.componentOf = t; 
+                    child.elementHash = MD5(JSON.stringify([r,child.internalID])).toString();
                     // Now there is a componentOf implementation which will allow us to add a reference to the vDOM in the object to work with after the mounting of the component                    
-                    RootDiv.appendChild(r.tag); 
+                    let e : HTMLElement = r.tag;
+                    e.setAttribute("det-id",child.internalID);
+                    RootDiv.appendChild(e); 
                 } else {
-                    RootDiv.appendChild(child.componentReference.tag);  
+                    let ee : HTMLElement = child.componentReference.tag;
+                    ee.setAttribute("det-id",child.internalID);
+                    RootDiv.appendChild(ee);  
+                    child.elementHash = MD5(child.componentReference.tag).toString();
                 }                
                 if(r) {
                     this.renderVDOM(r.tag, child);
@@ -74,13 +88,16 @@ class VDOM {
                 cN.setParent(root);                
                 this.buildVDOM(cN);
                 root.addChildNode(cN);
-                this.nodeArray.push(cN);
-                // console.log(child);
+                this.nodeArray.push(cN);                
             })
         }
-        this.rootNode = root;  
+        this.rootNode = root;
+        this.nodeHash[root.comparatorHash] = root;  
         return root;
     }
+
+    
+
 
     // need to implement modification methods here too. 
     // need to pass reference to this object as paramerter to all Nodes too.
