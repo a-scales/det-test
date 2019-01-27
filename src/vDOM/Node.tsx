@@ -51,6 +51,8 @@ class vDOM_Node implements IVDOM_Node {
         this.hash = MD5(JSON.stringify([this.uuid,this.componentReference])).toString()
         this._comparatorHash = MD5(JSON.stringify([this.classes, this.id, this.childNodes, this.componentReference])).toString()
         this._internalID = this.hash.substr(0,10);
+
+        this.generateClasses();
     }
     //~TODO: Make all of the fields private~
     //TODO: Format classes
@@ -157,6 +159,13 @@ class vDOM_Node implements IVDOM_Node {
         // figure out truth for hashing methods
     }
     
+
+    generateClasses() {
+        // console.log(this.componentReference)
+        if(this.componentReference.attrs && this.componentReference.attrs["class"]) {
+            this.classes = this.componentReference.attrs["class"].split(" ");
+        }
+    }
 }
 
 export default vDOM_Node

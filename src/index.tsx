@@ -81,7 +81,7 @@ class App extends ComponentBase {
     render() {
         return(
             <div>
-                <h1>Hello World!</h1>
+                <h1 class="test foo">Hello World!</h1>
                 <h2>This is an example</h2>
                 <TestComp test="Props!"></TestComp>
                 <nav>{menu}</nav>

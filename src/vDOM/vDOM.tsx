@@ -37,7 +37,8 @@ class VDOM {
      */
     renderVDOM(RootDiv: HTMLElement, RootNode: Node) {
         // console.log(Node);
-        RootNode.childNodes.forEach(child => {                                    
+        RootNode.childNodes.forEach(child => {     
+            console.log(child);                               
             if( typeof child.componentReference === "string") {
                 RootDiv.innerHTML = child.componentReference;
             } else {                
@@ -48,12 +49,15 @@ class VDOM {
                     child.componentOf = t; 
                     child.elementHash = MD5(JSON.stringify([r,child.internalID])).toString();
                     // Now there is a componentOf implementation which will allow us to add a reference to the vDOM in the object to work with after the mounting of the component                    
-                    let e : HTMLElement = r.tag;
+                    
+                    let e : HTMLElement = r.tag;                    
                     e.setAttribute("det-id",child.internalID);
+                    if( child.classes && child.classes.length > 0) {child.classes.forEach( c => e.classList.add(c) );}
                     RootDiv.appendChild(e); 
                 } else {
                     let ee : HTMLElement = child.componentReference.tag;
                     ee.setAttribute("det-id",child.internalID);
+                    if( child.classes && child.classes.length > 0) {child.classes.forEach( c => ee.classList.add(c) );}
                     RootDiv.appendChild(ee);  
                     child.elementHash = MD5(child.componentReference.tag).toString();
                 }                
@@ -96,7 +100,21 @@ class VDOM {
         return root;
     }
 
+    /**
+     * Search for an node in the vDOM by element
+     * @param element element to search for in the vDom
+     */
+    searchByElement(element: string): Node {
+        return new Node({});
+    }
     
+    /**
+     * Search for a node in the vDOM by IID 
+     * @param iid Internal ID of the DOM element to search for in the vDOM
+     */
+    searchByIID(iid: string) {
+        return new Node({});
+    }
 
 
     // need to implement modification methods here too. 
